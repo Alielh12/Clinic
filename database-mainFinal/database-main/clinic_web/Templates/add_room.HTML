@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Add New Room</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="room_name" class="form-label">Room Name *</label>
+                            <input type="text" class="form-control" id="room_name" name="room_name" required placeholder="e.g., Room A">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="room_type" class="form-label">Room Type *</label>
+                            <select class="form-control" id="room_type" name="room_type" required>
+                                <option value="">-- Select type --</option>
+                                <option value="Consultation">Consultation</option>
+                                <option value="Pediatrics">Pediatrics</option>
+                                <option value="Laboratory">Laboratory</option>
+                                <option value="Surgery">Surgery</option>
+                                <option value="Imaging">Imaging</option>
+                                <option value="General">General</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="notes" class="form-label">Notes</label>
+                            <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="e.g., Location, equipment, etc."></textarea>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">Add Room</button>
+                            <a href="/rooms" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

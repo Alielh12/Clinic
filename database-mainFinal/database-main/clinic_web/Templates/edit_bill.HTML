@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0">Edit Bill #{{ bill[0] }}</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Patient Information</h6>
+                            <p><strong>Name:</strong> {{ bill[2] }}</p>
+                            <p><strong>Email:</strong> {{ bill[3] }}</p>
+                            <p><strong>Phone:</strong> {{ bill[4] }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Appointment Information</h6>
+                            <p><strong>Doctor:</strong> {{ bill[5] }}</p>
+                            <p><strong>Date:</strong> {{ bill[6].strftime('%Y-%m-%d %H:%M') }}</p>
+                            <p><strong>Reason:</strong> {{ bill[7] }}</p>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Bill Amount ($) *</label>
+                            <input type="number" class="form-control" id="amount" name="amount" 
+                                   step="0.01" min="0" value="{{ bill[8] }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="payment_status" class="form-label">Payment Status *</label>
+                            <select class="form-control" id="payment_status" name="payment_status" required>
+                                <option value="unpaid" {% if bill[9] == 'unpaid' %}selected{% endif %}>Unpaid</option>
+                                <option value="paid" {% if bill[9] == 'paid' %}selected{% endif %}>Paid</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="payment_method" class="form-label">Payment Method *</label>
+                            <select class="form-control" id="payment_method" name="payment_method" required>
+                                <option value="cash" {% if bill[10] == 'cash' %}selected{% endif %}>Cash</option>
+                                <option value="card" {% if bill[10] == 'card' %}selected{% endif %}>Card</option>
+                                <option value="insurance" {% if bill[10] == 'insurance' %}selected{% endif %}>Insurance</option>
+                                <option value="check" {% if bill[10] == 'check' %}selected{% endif %}>Check</option>
+                                <option value="online" {% if bill[10] == 'online' %}selected{% endif %}>Online</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-muted">Billing Date</label>
+                            <p><strong>{{ bill[11].strftime('%Y-%m-%d') }}</strong></p>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <strong>Current Status:</strong> 
+                            {% if bill[9] == 'paid' %}
+                                <span class="badge bg-success">PAID</span>
+                            {% else %}
+                                <span class="badge bg-danger">UNPAID</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">Update Bill</button>
+                            <a href="/billing" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Room Schedule: {{ room_name }}</h2>
+
+    <div class="card">
+        <div class="card-header bg-info text-white">
+            <h5 class="mb-0">Appointments in this room</h5>
+        </div>
+        <div class="card-body">
+            {% if schedule %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Appointment ID</th>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appt in schedule %}
+                        <tr>
+                            <td><strong>#{{ appt[0] }}</strong></td>
+                            <td>{{ appt[1] }}</td>
+                            <td>{{ appt[2] }}</td>
+                            <td>{{ appt[3].strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>{{ appt[4].strftime('%Y-%m-%d %H:%M') if appt[4] else '-' }}</td>
+                            <td>
+                                {% if appt[5] == 'completed' %}
+                                    <span class="badge bg-success">COMPLETED</span>
+                                {% elif appt[5] == 'cancelled' %}
+                                    <span class="badge bg-danger">CANCELLED</span>
+                                {% else %}
+                                    <span class="badge bg-info">SCHEDULED</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info">No appointments scheduled in this room.</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a href="/rooms" class="btn btn-secondary">Back to Rooms</a>
+    </div>
+</div>
+{% endblock %}

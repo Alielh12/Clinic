@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Create New Appointment</h4>
+                </div>
+
+                <div class="card-body">
+
+                    <!-- ERROR MESSAGE FROM TRIGGER OR BACKEND -->
+                    {% if error %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                    {% endif %}
+
+                    <form method="POST">
+
+                        <!-- Select Patient -->
+                        <div class="mb-3">
+                            <label for="patient_id" class="form-label">Select Patient *</label>
+                            <select class="form-control" id="patient_id" name="patient_id" required>
+                                <option value="">-- Choose a patient --</option>
+                                {% for p in patients %}
+                                <option value="{{ p[0] }}">{{ p[1] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Select Doctor -->
+                        <div class="mb-3">
+                            <label for="doctor_id" class="form-label">Select Doctor *</label>
+                            <select class="form-control" id="doctor_id" name="doctor_id" required>
+                                <option value="">-- Choose a doctor --</option>
+                                {% for d in doctors %}
+                                <option value="{{ d[0] }}">{{ d[1] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Appointment Reason -->
+                        <div class="mb-3">
+                            <label for="reason" class="form-label">Reason *</label>
+                            <input type="text" class="form-control" id="reason" name="reason" required>
+                        </div>
+
+                        <!-- Start Date -->
+                        <div class="mb-3">
+                            <label for="starts_at" class="form-label">Start Time *</label>
+                            <input type="datetime-local" class="form-control" id="starts_at" name="starts_at" required>
+                        </div>
+
+                        <!-- End Date -->
+                        <div class="mb-3">
+                            <label for="ends_at" class="form-label">End Time *</label>
+                            <input type="datetime-local" class="form-control" id="ends_at" name="ends_at" required>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-success">Create Appointment</button>
+                            <a href="/appointments" class="btn btn-secondary">Cancel</a>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

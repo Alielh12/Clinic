@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Assign Appointment to Room: {{ room_name }}</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="appointment_id" class="form-label">Select Appointment *</label>
+                            <select class="form-control" id="appointment_id" name="appointment_id" required>
+                                <option value="">-- Choose an appointment --</option>
+                                {% for appt in appointments %}
+                                <option value="{{ appt[0] }}">
+                                    Appt #{{ appt[0] }} - {{ appt[1] }} with Dr. {{ appt[2] }} on {{ appt[3].strftime('%Y-%m-%d %H:%M') }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">Assign Room to Appointment</button>
+                            <a href="/rooms" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

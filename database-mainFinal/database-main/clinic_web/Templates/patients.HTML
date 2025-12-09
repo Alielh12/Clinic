@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <h2 class="mb-4">Patients</h2>
+
+    <!-- ERROR MESSAGE (from delete failure, FK, trigger, etc.) -->
+    {% if error %}
+    <div class="alert alert-danger">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <div class="mb-3">
+        <a href="/add_patient" class="btn btn-primary">Add Patient</a>
+    </div>
+
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th style="width: 120px;">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for p in patients %}
+            <tr>
+                <td>{{ p[0] }}</td>
+                <td>{{ p[1] }}</td>
+                <td>{{ p[2] }}</td>
+                <td>{{ p[3] }}</td>
+
+                <!-- DELETE BUTTON -->
+                <td>
+                    <a href="/delete_patient/{{ p[0] }}"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Are you sure you want to delete this patient?');">
+                        Delete
+                    </a>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Create New Bill</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+
+                        <!-- Appointment selection -->
+                        <div class="mb-3">
+                            <label for="appt_id" class="form-label">Select Appointment *</label>
+                            <select class="form-control" id="appt_id" name="appt_id" required>
+                                <option value="">-- Choose an appointment --</option>
+                                {% for appt in appointments %}
+                                    <option value="{{ appt[0] }}">
+                                        Appointment #{{ appt[0] }} — Patient ID: {{ appt[1] }} — Doctor ID: {{ appt[2] }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Amount input (FIXED WITH YOUR MESSAGE) -->
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Amount ($) *</label>
+                            <input type="number"
+                                   class="form-control"
+                                   id="amount"
+                                   name="amount"
+                                   required
+                                   oninput="this.setCustomValidity(''); if (this.value < 0) this.setCustomValidity('Billing amount cannot be negative');"
+                                   oninvalid="this.setCustomValidity('Billing amount cannot be negative');">
+                        </div>
+
+                        <!-- Payment status -->
+                        <div class="mb-3">
+                            <label for="payment_status" class="form-label">Payment Status *</label>
+                            <select class="form-control" id="payment_status" name="payment_status" required>
+                                <option value="Pending">Pending</option>
+                                <option value="Paid">Paid</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">Create Bill</button>
+                            <a href="/billing" class="btn btn-secondary">Cancel</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Appointments</h2>
+
+<a href="/add_appointment" class="btn btn-primary mb-3">Add Appointment</a>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Status</th>
+            <th>Reason</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for appt in appointments %}
+        <tr>
+            <td>{{ appt[0] }}</td>
+            <td>{{ appt[1] }}</td>
+            <td>{{ appt[2] }}</td>
+            <td>{{ appt[3] }}</td>
+            <td>{{ appt[4] }}</td>
+            <td>{{ appt[5] }}</td>
+            <td>{{ appt[6] }}</td>
+            <td>
+                <a href="/delete_appointment/{{ appt[0] }}" class="btn btn-danger btn-sm"
+                   onclick="return confirm('Are you sure you want to delete this appointment?');">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

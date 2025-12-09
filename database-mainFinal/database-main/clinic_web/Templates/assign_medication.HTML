@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Assign Medication to Patient</h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <strong>Medication:</strong> {{ med_name }}<br>
+                        <strong>Strength:</strong> {{ med_strength }}
+                    </div>
+
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="appointment_id" class="form-label">Select Appointment *</label>
+                            <select class="form-control" id="appointment_id" name="appointment_id" required>
+                                <option value="">-- Choose an appointment --</option>
+                                {% for appt in appointments %}
+                                <option value="{{ appt[0] }}">
+                                    Appt #{{ appt[0] }} - {{ appt[1] }} with Dr. {{ appt[2] }} ({{ appt[3].strftime('%Y-%m-%d %H:%M') }})
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="dosage" class="form-label">Dosage *</label>
+                            <input type="text" class="form-control" id="dosage" name="dosage" required placeholder="e.g., 1 tablet">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="route" class="form-label">Route of Administration *</label>
+                            <select class="form-control" id="route" name="route" required>
+                                <option value="">-- Select route --</option>
+                                <option value="oral">Oral</option>
+                                <option value="intravenous">Intravenous</option>
+                                <option value="intramuscular">Intramuscular</option>
+                                <option value="topical">Topical</option>
+                                <option value="inhalation">Inhalation</option>
+                                <option value="subcutaneous">Subcutaneous</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="frequency" class="form-label">Frequency *</label>
+                            <input type="text" class="form-control" id="frequency" name="frequency" required placeholder="e.g., every 6 hours, once daily">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">Quantity *</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" min="0" value="1" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="instructions" class="form-label">Special Instructions</label>
+                            <textarea class="form-control" id="instructions" name="instructions" rows="3" placeholder="e.g., Take with food, avoid with dairy"></textarea>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">Assign Medication</button>
+                            <a href="/medications" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">Add New Patient</h2>
+
+<form method="POST" class="card p-4 shadow-sm">
+
+    <div class="mb-3">
+        <label class="form-label">Full name:</label>
+        <input class="form-control" name="full_name" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Email:</label>
+        <input class="form-control" name="email">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Phone:</label>
+        <input class="form-control" name="phone">
+    </div>
+
+    <button class="btn btn-primary mt-3">Add Patient</button>
+
+</form>
+
+{% endblock %}

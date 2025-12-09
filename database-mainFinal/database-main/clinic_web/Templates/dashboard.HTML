@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Clinic Dashboard</h1>
+
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Total Patients</h5>
+                    <p class="display-4">{{ total_patients }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Total Appointments</h5>
+                    <p class="display-4">{{ total_appointments }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Today's Appointments</h5>
+                    <p class="display-4">{{ today_appointments }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Available Rooms</h5>
+                    <p class="display-4">{{ available_rooms }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">Appointment Status Overview</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Scheduled</h6>
+                            <p class="display-5 text-info">{{ scheduled_count }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Completed</h6>
+                            <p class="display-5 text-success">{{ completed_count }}</p>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <p class="text-muted small">
+                            {% if total_appointments > 0 %}
+                                Completion Rate: {{ ((completed_count / total_appointments) * 100) | round(1) }}%
+                            {% else %}
+                                No appointments yet
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">System Summary</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Total Medications
+                            <span class="badge bg-primary rounded-pill">{{ total_medications }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Total Doctors
+                            <span class="badge bg-info rounded-pill">{{ total_doctors }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Total Rooms
+                            <span class="badge bg-warning rounded-pill">{{ total_rooms }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Unpaid Bills
+                            <span class="badge bg-danger rounded-pill">{{ unpaid_bills }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">Upcoming Appointments (Next 7 Days)</h5>
+                </div>
+                <div class="card-body">
+                    {% if upcoming_appointments %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Date/Time</th>
+                                    <th>Patient</th>
+                                    <th>Doctor</th>
+                                    <th>Reason</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for appt in upcoming_appointments %}
+                                <tr>
+                                    <td>{{ appt[0].strftime('%Y-%m-%d %H:%M') }}</td>
+                                    <td>{{ appt[1] }}</td>
+                                    <td>{{ appt[2] }}</td>
+                                    <td>{{ appt[3] }}</td>
+                                    <td>
+                                        {% if appt[4] == 'completed' %}
+                                            <span class="badge bg-success">COMPLETED</span>
+                                        {% elif appt[4] == 'cancelled' %}
+                                            <span class="badge bg-danger">CANCELLED</span>
+                                        {% else %}
+                                            <span class="badge bg-info">SCHEDULED</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">No upcoming appointments in the next 7 days.</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

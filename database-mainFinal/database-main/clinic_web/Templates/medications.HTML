@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Medications</h2>
+
+    <div class="mb-3">
+        <a href="/add_medication" class="btn btn-primary">Add New Medication</a>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">Medication List</h5>
+        </div>
+        <div class="card-body">
+            {% if medications %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Med ID</th>
+                            <th>Medication Name</th>
+                            <th>Form</th>
+                            <th>Strength</th>
+                            <th>Notes</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for med in medications %}
+                        <tr>
+                            <td><strong>{{ med[0] }}</strong></td>
+                            <td>{{ med[1] }}</td>
+                            <td><span class="badge bg-info">{{ med[2] }}</span></td>
+                            <td>{{ med[3] }}</td>
+                            <td>{{ med[4] if med[4] else '-' }}</td>
+                            <td>
+                                <a href="/edit_medication/{{ med[0] }}" class="btn btn-sm btn-warning">Edit</a>
+                                <a href="/assign_medication/{{ med[0] }}" class="btn btn-sm btn-success">Assign</a>
+                                <a href="/delete_medication/{{ med[0] }}" class="btn btn-sm btn-danger"
+                                   onclick="return confirm('Are you sure you want to delete this medication and its variants?');">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info">No medications found. <a href="/add_medication">Add one now</a></div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

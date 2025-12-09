@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Search</h2>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Search Patients</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="/search_patients">
+                        <div class="mb-3">
+                            <label for="patient_name" class="form-label">Patient Name</label>
+                            <input type="text" class="form-control" id="patient_name" name="patient_name" placeholder="Enter patient name">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                </div>
+            </div>
+
+            {% if patient_results %}
+            <div class="card mt-3">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Search Results ({{ patient_results|length }} found)</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Patient ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for patient in patient_results %}
+                                <tr>
+                                    <td>{{ patient[0] }}</td>
+                                    <td>{{ patient[1] }}</td>
+                                    <td>{{ patient[2] if patient[2] else '-' }}</td>
+                                    <td>{{ patient[3] if patient[3] else '-' }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% elif patient_searched %}
+            <div class="card mt-3">
+                <div class="alert alert-warning">No patients found matching "{{ patient_search_term }}"</div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">Search Appointments</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="/search_appointments">
+                        <div class="mb-3">
+                            <label for="search_type" class="form-label">Search By</label>
+                            <select class="form-control" id="search_type" name="search_type" required>
+                                <option value="">-- Select --</option>
+                                <option value="doctor">Doctor Name</option>
+                                <option value="date">Date</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="search_value" class="form-label">Value</label>
+                            <input type="text" class="form-control" id="search_value" name="search_value" 
+                                   placeholder="Enter doctor name or date (YYYY-MM-DD)">
+                        </div>
+                        <button type="submit" class="btn btn-warning">Search</button>
+                    </form>
+                </div>
+            </div>
+
+            {% if appt_results %}
+            <div class="card mt-3">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Search Results ({{ appt_results|length }} found)</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Appt ID</th>
+                                    <th>Patient</th>
+                                    <th>Doctor</th>
+                                    <th>Date/Time</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for appt in appt_results %}
+                                <tr>
+                                    <td>{{ appt[0] }}</td>
+                                    <td>{{ appt[1] }}</td>
+                                    <td>{{ appt[2] }}</td>
+                                    <td>{{ appt[3].strftime('%Y-%m-%d %H:%M') }}</td>
+                                    <td>
+                                        {% if appt[4] == 'completed' %}
+                                            <span class="badge bg-success">COMPLETED</span>
+                                        {% elif appt[4] == 'cancelled' %}
+                                            <span class="badge bg-danger">CANCELLED</span>
+                                        {% else %}
+                                            <span class="badge bg-info">SCHEDULED</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% elif appt_searched %}
+            <div class="card mt-3">
+                <div class="alert alert-warning">No appointments found matching your search.</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
